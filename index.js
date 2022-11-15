@@ -1,7 +1,7 @@
 const express = require('express');
 const routerApi = require('./routes');
 
-const { logErrors, errorHandler } = require('./middlewares/error.handler')
+const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler')
 
 const APP = express();
 const PORT = 3000;
@@ -12,11 +12,12 @@ APP.get('/', (req, res) => {
   res.send('My server ou llea')
 })
 
-APP.listen(PORT, () => {
-  console.log(`Running at: http://localhost:${PORT}/`);
-})
-
 routerApi(APP);
 
 APP.use(logErrors);
+APP.use(boomErrorHandler);
 APP.use(errorHandler);
+
+APP.listen(PORT, () => {
+  console.log(`Running at: http://localhost:${PORT}/`);
+})

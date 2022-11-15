@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
   res.status(201).json(newProduct);
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const body = req.body;
@@ -37,9 +37,7 @@ router.patch('/:id', async (req, res) => {
 
     res.json(product);
   } catch (error) {
-    res.status(404).json({
-      message: error.message
-    })
+    next(error);
   }
 })
 
